@@ -1,0 +1,46 @@
+{
+  "name": "personaforge",
+  "version": "0.1.0",
+  "private": true,
+  "main": "desktop/main.js",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": ".venv\\Scripts\\python.exe backend/runner.py",
+    "dev:electron": "wait-on http://127.0.0.1:5173 && electron .",
+    "dev": "concurrently -k \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:electron\"",
+    "build": "npm --prefix frontend run build",
+    "dist:backend": ".venv\\Scripts\\pyinstaller.exe build/pyinstaller/personaforge_backend.spec --distpath dist/backend --workpath build/pyinstaller/build --clean -y",
+    "dist": "npm run dist:backend && npm run build && electron-builder",
+    "lint": "echo 'No lint configured'"
+  },
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "concurrently": "^9.1.0",
+    "electron-builder": "^24.13.3",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.localai.personaforge",
+    "productName": "PersonaForge",
+    "files": [
+      "desktop/**/*",
+      "frontend/dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/backend",
+        "to": "backend"
+      },
+      {
+        "from": "config.yaml",
+        "to": "config.yaml"
+      }
+    ],
+    "directories": {
+      "buildResources": "desktop"
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+app:
+  data_dir: data
+  log_level: INFO
+
+ollama:
+  base_url: http://127.0.0.1:11434
+  default_model: "llama3.1:8b"
+  temperature: 0.7
+  max_tokens: 1024
+
+creativity:
+  default_level: 3
+  web_search: false
